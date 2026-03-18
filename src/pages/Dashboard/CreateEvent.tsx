@@ -65,11 +65,7 @@ export default function CreateEvent() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-6">{isEdit ? 'Edit Event' : 'Submit New Event'}</h1>
-      {!isEdit && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 text-sm text-blue-800 mb-6">
-          Events require admin approval before appearing publicly.
-        </div>
-      )}
+
       {error && <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700 mb-6">{error}</div>}
 
       <form onSubmit={handleSubmit} className="card p-6 space-y-5">

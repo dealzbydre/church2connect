@@ -19,8 +19,7 @@ router.get('/my/list', authenticate, (req, res) => {
 router.get('/', (req, res) => {
   const { category, state, search, from, to, church_id } = req.query;
   const churches = db.get('churches').value();
-
-  let list = db.get('events').filter({ status: 'approved' }).value();
+  let list = db.get('events').value();
 
   if (category) list = list.filter(e => e.category === category);
   if (church_id) list = list.filter(e => e.church_id === Number(church_id));
@@ -41,8 +40,6 @@ router.get('/', (req, res) => {
   }
 
   list.sort((a, b) => a.start_date.localeCompare(b.start_date));
-
-  // Attach church info
   list = list.map(e => {
     const ch = churches.find(c => c.id === e.church_id) || {};
     return { ...e, church_name: ch.name, church_city: ch.city, church_state: ch.state, church_logo: ch.logo_url };
@@ -52,7 +49,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const ev = db.get('events').find({ id: Number(req.params.id), status: 'approved' }).value();
+  const ev = db.get('events').find({ id: Number(req.params.id) }).value();
   if (!ev) return res.status(404).json({ error: 'Not found' });
   const ch = db.get('churches').find({ id: ev.church_id }).value() || {};
   res.json({ ...ev, church_name: ch.name, church_city: ch.city, church_state: ch.state, church_logo: ch.logo_url });
@@ -61,7 +58,6 @@ router.get('/:id', (req, res) => {
 router.post('/', authenticate, (req, res) => {
   const church = db.get('churches').find({ user_id: req.user.id }).value();
   if (!church) return res.status(400).json({ error: 'Create a church profile first' });
-  if (church.status !== 'approved') return res.status(400).json({ error: 'Your church profile must be approved before submitting events' });
 
   const { title, description, category, start_date, end_date, location, address, city, state, image_url, registration_url, is_free, cost, contact_email, contact_phone } = req.body;
   if (!title || !start_date) return res.status(400).json({ error: 'Title and start date required' });
@@ -73,7 +69,7 @@ router.post('/', authenticate, (req, res) => {
     start_date, end_date, location, address, city, state,
     image_url, registration_url,
     is_free: is_free ? 1 : 0, cost, contact_email, contact_phone,
-    status: 'pending', created_at: now()
+    created_at: now()
   };
   db.get('events').push(event).write();
   res.status(201).json(event);
@@ -87,7 +83,7 @@ router.put('/:id', authenticate, (req, res) => {
 
   const { title, description, category, start_date, end_date, location, address, city, state, image_url, registration_url, is_free, cost, contact_email, contact_phone } = req.body;
   db.get('events').find({ id: Number(req.params.id) })
-    .assign({ title, description, category, start_date, end_date, location, address, city, state, image_url, registration_url, is_free: is_free ? 1 : 0, cost, contact_email, contact_phone, status: 'pending' })
+    .assign({ title, description, category, start_date, end_date, location, address, city, state, image_url, registration_url, is_free: is_free ? 1 : 0, cost, contact_email, contact_phone })
     .write();
   res.json(db.get('events').find({ id: Number(req.params.id) }).value());
 });

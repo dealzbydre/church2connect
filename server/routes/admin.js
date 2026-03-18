@@ -8,10 +8,8 @@ router.use(authenticate, requireRole('admin'));
 router.get('/stats', (_req, res) => {
   const users = db.get('users').filter(u => u.role !== 'admin').value().length;
   const churches = db.get('churches').value().length;
-  const pending_churches = db.get('churches').filter({ status: 'pending' }).value().length;
   const events = db.get('events').value().length;
-  const pending_events = db.get('events').filter({ status: 'pending' }).value().length;
-  res.json({ users, churches, pending_churches, events, pending_events });
+  res.json({ users, churches, events });
 });
 
 router.get('/churches', (_req, res) => {
@@ -22,13 +20,6 @@ router.get('/churches', (_req, res) => {
     return { ...c, owner_email: owner.email, owner_name: owner.name };
   }).sort((a, b) => b.created_at.localeCompare(a.created_at));
   res.json(result);
-});
-
-router.put('/churches/:id/status', (req, res) => {
-  const { status } = req.body;
-  if (!['approved', 'rejected', 'pending'].includes(status)) return res.status(400).json({ error: 'Invalid status' });
-  db.get('churches').find({ id: Number(req.params.id) }).assign({ status }).write();
-  res.json({ ok: true });
 });
 
 router.delete('/churches/:id', (req, res) => {
@@ -46,13 +37,6 @@ router.get('/events', (_req, res) => {
     return { ...e, church_name: ch.name };
   }).sort((a, b) => b.created_at.localeCompare(a.created_at));
   res.json(result);
-});
-
-router.put('/events/:id/status', (req, res) => {
-  const { status } = req.body;
-  if (!['approved', 'rejected', 'pending'].includes(status)) return res.status(400).json({ error: 'Invalid status' });
-  db.get('events').find({ id: Number(req.params.id) }).assign({ status }).write();
-  res.json({ ok: true });
 });
 
 router.delete('/events/:id', (req, res) => {

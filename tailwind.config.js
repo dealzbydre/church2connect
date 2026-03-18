@@ -4,37 +4,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: {
-          50:  '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#3b4fa8',
-          600: '#2d3d8e',
-          700: '#1e2d6f',
-          800: '#172259',
-          900: '#0f1740',
-        },
-        brand: {
-          50:  '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
+        primary: {
+          50:  '#e3f2fd',
+          100: '#bbdefb',
+          200: '#90caf9',
+          300: '#64b5f6',
+          400: '#42a5f5',
+          500: '#1e88e5',
+          600: '#1565c0',
+          700: '#0d47a1',
+          800: '#0a3880',
+          900: '#072860',
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-      },
-      borderRadius: {
-        '2xl': '1rem',
-        '3xl': '1.5rem',
+        sans:    ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Poppins', 'system-ui', 'sans-serif'],
       }
     }
   },

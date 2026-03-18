@@ -65,15 +65,10 @@ export default function ChurchProfileEdit() {
         )}
       </div>
 
-      {status === 'pending' && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-3 text-sm text-yellow-800 mb-6">
-          Your church profile is pending admin approval. You'll be able to submit events once approved.
-        </div>
-      )}
 
       {success && (
         <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 text-sm text-green-800 mb-6">
-          Profile saved! {!status || status === 'pending' ? 'Awaiting admin approval.' : ''}
+          Profile saved successfully!
         </div>
       )}
       {error && <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700 mb-6">{error}</div>}

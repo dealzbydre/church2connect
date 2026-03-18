@@ -2,17 +2,21 @@ import { Link } from 'react-router-dom'
 
 export default function Footer() {
   return (
-    <footer className="bg-navy-900 text-navy-300">
+    <footer className="bg-gray-900 text-gray-400">
       <div className="section py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2.5 mb-3">
-              <div className="w-8 h-8 bg-navy-600 rounded-xl flex items-center justify-center">
-                <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L2 9.5V22h7v-7h6v7h7V9.5L12 2z"/>
-                </svg>
-              </div>
-              <span className="font-bold text-white">Church2Connect</span>
+            <div className="mb-3">
+              <img
+                src="https://horizons-cdn.hostinger.com/e454d0e1-fdcb-45e0-a41c-da9fd4c33489/b7d6670d911969a6a90ffadb0eaafbdb.png"
+                alt="Church2Connect"
+                className="h-10 w-auto brightness-0 invert"
+                onError={e => {
+                  (e.currentTarget as HTMLImageElement).style.display = 'none';
+                  (e.currentTarget.nextSibling as HTMLElement).style.display = 'block';
+                }}
+              />
+              <span className="font-bold text-white hidden" style={{ fontFamily: 'Poppins, sans-serif' }}>Church2Connect</span>
             </div>
             <p className="text-sm leading-relaxed max-w-xs">
               Connecting communities through faith and shared experiences. Find events, discover churches, and stay connected.
@@ -30,13 +34,12 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li><Link to="/register" className="hover:text-white transition-colors">Register Your Church</Link></li>
               <li><Link to="/dashboard" className="hover:text-white transition-colors">Submit an Event</Link></li>
-              <li><Link to="/login" className="hover:text-white transition-colors">Sign In</Link></li>
+              <li><Link to="/login" className="hover:text-white transition-colors">Login</Link></li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-navy-700 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-navy-500">
-          <p>© {new Date().getFullYear()} Church2Connect. All rights reserved.</p>
-          <p>Built for communities of faith ✝</p>
+        <div className="border-t border-gray-800 mt-10 pt-6 text-xs text-center text-gray-500">
+          © {new Date().getFullYear()} Church2Connect. All rights reserved.
         </div>
       </div>
     </footer>
